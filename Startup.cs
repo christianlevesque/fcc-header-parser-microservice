@@ -23,8 +23,6 @@ namespace header_parser
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseHttpsRedirection();
-
 			app.UseRouting();
 
 			app.UseAuthorization();
