@@ -22,8 +22,6 @@ namespace header_parser
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
-			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 		}
 	}
 }
