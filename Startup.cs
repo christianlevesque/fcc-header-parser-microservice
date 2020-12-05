@@ -23,8 +23,6 @@ namespace header_parser
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 		}
 	}
