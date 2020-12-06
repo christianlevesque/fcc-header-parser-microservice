@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 
 namespace header_parser
@@ -13,6 +14,11 @@ namespace header_parser
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.Run(async context =>
+			{
+				await context.Response.WriteAsync("Hello, ASP.NET Core!");
+			});
 		}
 	}
 }
