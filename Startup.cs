@@ -17,6 +17,7 @@ namespace header_parser
 
 			app.Run(async context =>
 			{
+				context.Response.Headers.Add("X-Application-Purpose", "FreeCodeCamp Request Header Parser Microservice");
 				await context.Response.WriteAsync("<h1>Hello, ASP.NET Core!</h1>");
 			});
 		}
