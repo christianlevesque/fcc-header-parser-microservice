@@ -17,7 +17,7 @@ namespace header_parser
 
 			app.Run(async context =>
 			{
-				await context.Response.WriteAsync("Hello, ASP.NET Core!");
+				await context.Response.WriteAsync("<h1>Hello, ASP.NET Core!</h1>");
 			});
 		}
 	}
