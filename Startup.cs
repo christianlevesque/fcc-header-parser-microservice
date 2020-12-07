@@ -29,7 +29,7 @@ namespace header_parser
 				context.Response.Headers.Add("X-Application-Purpose", "FreeCodeCamp Request Header Parser Microservice");
 				context.Response.ContentType = "text/html";
 				context.Response.StatusCode = 200;
-				await context.Response.WriteAsync($"<p>Your software is {software}");
+				await context.Response.WriteAsync($"<p>Your software is {software}</p>");
 			});
 		}
 	}
