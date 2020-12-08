@@ -29,4 +29,4 @@ printf "Removing deployment archive from server...\n"
 ssh $CL_BLOG_CREDENTIAL "rm headerparser.tar"
 printf "...done\n"
 
-echo "To run Header Parser, log into remove server and execute ~/publish/header-parser"
+echo "To run Header Parser, log into remote server and execute ~/publish/header-parser"
