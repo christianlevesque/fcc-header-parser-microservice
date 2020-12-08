@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,13 +26,17 @@ namespace header_parser
 					await context.Response.WriteAsync("<h1>Bad request</h1>");
 					return;
 				}
+				
+				var headers = new RequestHeaders
+				{
+					IpAddress = ipAddress,
+					Language = language,
+					Software = software
+				};
 
-				context.Response.Headers.Add("X-Application-Purpose", "FreeCodeCamp Request Header Parser Microservice");
-				context.Response.ContentType = "text/html";
+				context.Response.ContentType = "application/json";
 				context.Response.StatusCode = 200;
-				await context.Response.WriteAsync($"<p>Your software is {software}</p>" +
-												  $"<p>Your IP address is {ipAddress}</p>" +
-												  $"<p>Your preferred language is {language}</p>");
+				await context.Response.WriteAsync(JsonSerializer.Serialize(headers));
 			});
 		}
 	}
