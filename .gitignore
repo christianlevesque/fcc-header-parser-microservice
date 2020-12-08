@@ -9,3 +9,6 @@
 [Pp]ublish
 *.dll
 *.blob
+
+# Deployment
+*.tar
