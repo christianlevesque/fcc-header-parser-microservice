@@ -19,7 +19,7 @@ namespace header_parser
 			{
 				if (!context.Request.Headers.TryGetValue("User-Agent", out var software) ||
 					!context.Request.Headers.TryGetValue("X-Forwarded-For", out var ipAddress) ||
-					!context.Request.Headers.TryGetValue("Preferred-Language", out var language))
+					!context.Request.Headers.TryGetValue("Accept-Language", out var language))
 				{
 					context.Response.StatusCode = 400;
 					await context.Response.WriteAsync("<h1>Bad request</h1>");
