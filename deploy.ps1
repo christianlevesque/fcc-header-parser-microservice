@@ -1,13 +1,47 @@
-$remote_deploy_path = "{0}:" -f $env:CL_BLOG_CREDENTIAL
+####################################
+### Set up your build parameters ###
+####################################
+
+# the relative output directory of `dotnet publish`
+$build_dir = "publish"
+
+# the target OS for `dotnet publish`
+$build_target = "linux-x64"
+
+# the name of the archive with its extension
+$filename = "headerparser.zip"
+
+# the SSH credential name for the remote server
+# I have this stored as $env:CL_BLOG_CREDENTIAL on my dev machine
+# so you'll have to change this for your use
+$credential = $env:CL_BLOG_CREDENTIAL
+
+# the SCP deployment credential:path for the remote server
+$remote_deploy_path = "{0}:" -f $credential
+
+
+###########################
+### Clean up old builds ###
+###########################
 
 Write-Host "Removing previous build..."
-Remove-Item publish -Recurse
-Remove-Item headerparser.zip
+Remove-Item $build_dir -Recurse
+Remove-Item $filename
 Write-Host "...done"
 
+
+#############################
+### Build the application ###
+#############################
+
 Write-Host "Creating executable..."
-dotnet publish -c release -o publish -r linux-x64 --self-contained false
+dotnet publish -c release -o $build_dir -r $build_target --self-contained false
 Write-Host "...done"
+
+
+###############################
+### Archive the application ###
+###############################
 
 Write-Host "Packaging for deployment..."
 
@@ -15,23 +49,48 @@ Write-Host "Packaging for deployment..."
 # Files are archived with 000 permissions, and
 # running `sudo chmod -R 644 publish` will
 # just corrupt the files after extraction
-Compress-Archive -Path publish -DestinationPath headerparser.zip
+Compress-Archive -Path $build_dir -DestinationPath $filename
 Write-Host "...done"
+
+
+##################################################
+### Remove the old application from the server ###
+##################################################
 
 Write-Host "Clearing old deployment from server..."
-ssh $env:CL_BLOG_CREDENTIAL "rm -r publish"
+ssh $credential "rm -r publish"
 Write-Host "...done"
+
+
+################################################
+### Deploy the new application to the server ###
+################################################
 
 Write-Host "Uploading to server..."
-scp headerparser.zip $remote_deploy_path
+scp $filename $remote_deploy_path
 Write-Host "...done"
+
+
+###########################
+### Extract the archive ###
+###########################
 
 Write-Host "Extracting on server..."
-ssh $env:CL_BLOG_CREDENTIAL "unzip headerparser.zip"
+ssh $credential "unzip $filename"
 Write-Host "...done"
+
+
+##########################################
+### Remove the archive from the server ###
+##########################################
 
 Write-Host "Removing deployment archive from server..."
-ssh $env:CL_BLOG_CREDENTIAL "rm headerparser.zip"
+ssh $credential "rm $filename"
 Write-Host "...done"
 
-Write-Host "To run Header Parser, log into remote server and execute ~/publish/header-parser"
+
+############
+### Done ###
+############
+
+Write-Host "To run Header Parser, log into remote server and execute ~/$build_dir/header-parser"
