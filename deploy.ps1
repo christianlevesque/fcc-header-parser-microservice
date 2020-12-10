@@ -17,6 +17,8 @@ $filename = "headerparser.zip"
 $credential = $env:CL_BLOG_CREDENTIAL
 
 # the SCP deployment credential:path for the remote server
+# PowerShell doesn't allow string interpolation the way BASH does
+# so the simplest solution is to have this as its own variable
 $remote_deploy_path = "{0}:" -f $credential
 
 
